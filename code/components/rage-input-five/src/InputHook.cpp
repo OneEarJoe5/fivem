@@ -1115,7 +1115,13 @@ static HookFunction hookFunction([]()
 		if (!may)
 		{
 			ClipHostCursor(nullptr);
-			*captureCount = 0;
+
+			// with "Windows Input" the game drops held mouse buttons when its capture count is reset (no
+			// dragging or clicking on the pause menu map), and it keeps the cursor centered there anyway
+			if (GetMouseInputMethod() != 2)
+			{
+				*captureCount = 0;
+			}
 		}
 	});
 
